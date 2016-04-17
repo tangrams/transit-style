@@ -28,7 +28,7 @@ layers:
             lines:
                 order: 499
                 color: purple
-                width: [[5,1.5px],[6,2px],[11,3px],[18,3m]]
+                width: [[5,1.5px],[6,2px],[11,3px],[18,4px]]
                 interactive: true
                 outline:
                     color: [0.,0.,0.,.1]
@@ -39,7 +39,7 @@ layers:
             draw:
                 lines:
                     color: purple
-                    width: [[5,1.0px],[6,1.0px],[7,1.25px],[11,2.0px],[13,2.5px],[18,2.5m]]
+                    width: [[5,1.0px],[6,1.0px],[7,1.25px],[11,2.0px],[13,2.5px],[18,3.5px]]
                     outline:
                         width: [[12,1.0px],[13,1.75px],[14,2px]]
             stack-below-other-transit-later-zooms:
@@ -51,7 +51,7 @@ layers:
             filter: { kind: subway }
             draw:
                 lines:
-                    width: [[9,1px],[11,2.5px],[12,3px],[13,4px],[15,5px],[16,7px],[17,8m]]
+                    width: [[9,1px],[11,2.5px],[12,3px],[13,4px],[15,5px],[16,7px],[17,9px]]
                     outline:
                         color: [[10,white],[11,black]]
                         width: [[9,0px],[10,0.25px],[12,1.0px],[13,1.75px],[14,2px]]
@@ -59,7 +59,10 @@ layers:
             filter: { kind: [light_rail, tram] }
             draw:
                 lines:
-                    width: [[10,1px],[13,1.5px],[15,2px],[18,1.5m]]
+                    width: [[10,1px],[12,1.5px],[15,2px],[18,3.5px]]
+                    outline:
+                        color: [[11,white],[12,black]]
+                        width: [[12,0.25px],[13,0.5px],[14,1px],[16,2px]]
         has-data-color:
             filter: { colour: true }
             draw:
@@ -127,11 +130,13 @@ layers:
                         size: 14px
                         weight: bold
                         stroke: { color: white, width: 2 }
-#            z17-add-type:
-#                filter: { $zoom: { min: 17 } }
-#                draw:
-#                    text:
-#                        text_source: function() { return (feature.ref + ' (' + feature.kind + ')'); }
+            z19-show-long-route-name:
+                filter: { $zoom: { min: 19 } }
+                draw:
+                    text:
+                        text_source: function() { return feature.route_name || feature.ref; }
+                        font:
+                            stroke: { color: white, width: 3px }
 
     transit-bus-roads:
         data: { source: osm, layer: roads }
@@ -139,7 +144,7 @@ layers:
         draw:
             lines:
                 interactive: false
-                color: [[13,[0,0,1,0.5]],[15,[0,0,1,0.8]]]
+                color: [[13,[0,0,1,0.5]],[15,blue]]
                 width: [[11,0.5px],[12,0.8px],[16,1.25px],[18,1m]]
                 # let roads sort themselves past zoom 14
                 order: 488
@@ -201,9 +206,13 @@ layers:
                 filter: { kind_tile_rank: { min: 3 }, $zoom: { min: 0, max: 12 } }
                 draw:
                     icons:
-#                        visible: false
                         size: [[12, 5px], [14, 6px], [15, 16px]]
                     text-blend-order: { visible: false } 
+                long-tail:
+                    filter: { kind_tile_rank: { min: 10 }, $zoom: [10] }
+                    draw:
+                        icons:
+                            visible: false
             low-priority-early-z12:
                 filter: { kind_tile_rank: { min: 8 }, $zoom: [12] }
                 draw:
@@ -258,19 +267,19 @@ layers:
                 text-blend-order:
                     visible: false
         tram-stop-early:
-            filter: { kind: [tram_stop], $zoom: { max: 15 } }
+            filter: { kind: [tram_stop], $zoom: { max: 16 } }
             draw:
                 icons:
-                    size: [[13, 0px], [14, 7px], [15, 8px], [16, 18px]]
+                    size: [[13, 0px], [14, 7px], [15, 8px]]
                     visible: true
                     sprite: light-rail
                 text-blend-order:
                     visible: false
         tram-stop:
-            filter: { kind: tram_stop, $zoom: { min: 15 } }
+            filter: { kind: tram_stop, $zoom: { min: 16 } }
             draw:
                 icons:
-                    size: [[13, 12px], [16, 18px]]
+                    size: [[16, 12px], [17, 14px], [18, 18px]]
                     sprite: light-rail
                 text-blend-order:
                     offset: [[13, [0, 6px]], [16, [0, 9px]]]
@@ -279,7 +288,7 @@ layers:
                 kind: [platform, stop_position]
             draw:
                 icons:
-                    size: [[13, 12px], [16, 18px]]
+                    size: [[13, 8px], [16, 10px], [17, 12px], [18, 18px]]
                     sprite: bus-station
                 text-blend-order:
                     interactive: true
@@ -324,7 +333,7 @@ layers:
                     offset: [[17, [0, 6px]], [19, [0, 7px]]] # offset tracks alongside icon size (half icon height)
                     priority: 20
                     interactive: true
-                    text_source: function() { if( feature.ref && feature.name ) { return '[' + feature.ref + ']\n' + feature.name; } else { return feature.name; } }
+                    text_source: function() { if( feature.ref || feature.name ) { if( feature.ref && feature.name ) { return '[' + feature.ref + ']\n' + feature.name; } else { return feature.name; } } else { return "Entrance"; } }
                     font:
                         fill: black
                         size: 12px
