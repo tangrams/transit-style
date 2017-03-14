@@ -9,12 +9,17 @@
 # Zinc Authors: Nathaniel V. Kelso, Geraldine Sarmiento
 # Read more: https://github.com/tangrams/zinc-style
 
-import: https://mapzen.com/carto/zinc-style/zinc-style.yaml
+import: https://mapzen.com/carto/zinc-style/5/zinc-style.yaml
+
+global:
+    sdk_mapzen_api_key: vector-tiles-PP2WcAW     # set this value to your Mapzen API key
 
 sources:
     osm:
         type: TopoJSON #GeoJSON, MVT, TopoJSON
-        url:  //vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-PP2WcAW
+        url:  //vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson
+        url_params:
+            api_key: global.sdk_mapzen_api_key
         #url: '//vector.dev.mapzen.com/osm/all/{z}/{x}/{y}.topojson'
         #url:  //localhost:8080/osm/all/{z}/{x}/{y}.json
         max_zoom: 16
