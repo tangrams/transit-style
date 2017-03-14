@@ -1,6 +1,8 @@
 # transit-style
 
-Work in progress!
+THIS IS AN OLD EXPERIMENT THAT IS NO LONGER MAINTAINED
+
+Each Mapzen basemap style now includes a transit overlay.
 
 ### To run locally:
 
