@@ -9,7 +9,7 @@
 # Zinc Authors: Nathaniel V. Kelso, Geraldine Sarmiento
 # Read more: https://github.com/tangrams/zinc-style
 
-import: https://mapzen.com/carto/zinc-style/5/zinc-style.yaml
+import: https://mapzen.com/carto/zinc-style/4/zinc-style.yaml
 
 global:
     sdk_mapzen_api_key: vector-tiles-PP2WcAW     # set this value to your Mapzen API key
